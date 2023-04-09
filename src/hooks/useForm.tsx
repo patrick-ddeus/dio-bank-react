@@ -1,18 +1,14 @@
-import React, { SyntheticEvent } from "react";
+import React, { ChangeEvent } from "react";
 
-export interface FormIF{
+export interface IForm{
     email?: string,
     password?: string
 }
 
-interface FormEvent<T> extends SyntheticEvent<T>{
-    target: EventTarget & T;
-}
+export const useForm = (initValue: IForm) => {
+    const [form, setForm] = React.useState(initValue)
 
-export const useForm = (initValue: FormIF) => {
-    const [form, setForm] = React.useState<FormIF>(initValue)
-
-    function handleForm(event: FormEvent<HTMLInputElement>){
+    function handleForm(event: ChangeEvent<HTMLInputElement>){
         setForm({...form, [event.target.name]: event.target.value})
     }
 

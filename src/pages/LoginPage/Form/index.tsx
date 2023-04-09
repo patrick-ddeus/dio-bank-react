@@ -1,16 +1,39 @@
-import React, { ReactElement } from "react";
+import React from "react";
 import { InputGroup, InputRightElement } from "@chakra-ui/react";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import InputField from "../../../components/InputField";
+import { ILogin } from "../../../api/AuthProtocols";
 
-const Form: React.FC = (): ReactElement => {
-  const [view, setView] = React.useState<boolean>(false)
+interface FormProps {
+  form: ILogin;
+  setForm: React.Dispatch<React.SetStateAction<ILogin>>;
+}
+
+const Form: React.FC<FormProps> = ({ form, setForm }) => {
+  const [view, setView] = React.useState<boolean>(false);
+
   const handleView = (): void => setView(!view);
+
+  function handleForm(event: React.ChangeEvent<HTMLInputElement>) {
+    setForm((previousState) => {
+      return {
+        ...previousState,
+        [event.target.name]: event.target.value,
+      };
+    });
+  }
 
   return (
     <>
       <InputGroup>
-        <InputField type="text" placeholder="email" appearance="Flushed" />
+        <InputField
+          type="text"
+          placeholder="email"
+          appearance="Flushed"
+          name="email"
+          value={form.email}
+          onChangeFunc={handleForm}
+        />
       </InputGroup>
 
       <InputGroup size="lg">
@@ -18,6 +41,9 @@ const Form: React.FC = (): ReactElement => {
           type={view ? "text" : "password"}
           placeholder="password"
           appearance="Flushed"
+          value={form.password}
+          name="password"
+          onChangeFunc={handleForm}
         />
         <InputRightElement
           onClick={handleView}

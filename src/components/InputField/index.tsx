@@ -1,19 +1,26 @@
 import { Input } from "@chakra-ui/react";
+import { ChangeEventHandler } from "react";
 
 interface InputIF {
   type: string;
   placeholder: string;
   size?: string;
   appearance?: string;
+  onChangeFunc?:ChangeEventHandler,
+  value?:string,
+  name?:string
 }
 
-const InputField = ({
+const InputField: React.FC<InputIF> = ({
   type,
   placeholder,
   size,
   appearance = "outline",
-  
-}: InputIF) => {
+  onChangeFunc,
+  value,
+  name
+}) => {
+ 
   return (
     <Input
       type={type}
@@ -27,6 +34,9 @@ const InputField = ({
       borderColor="gray.200"
       borderRadius={"5px"}
       display={"block"}
+      onChange={onChangeFunc}
+      value={value}
+      name={name}
     />
   );
 };
