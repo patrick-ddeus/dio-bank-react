@@ -1,14 +1,27 @@
 import React from "react";
 import Form from "./Form";
 import Auth from "../../api/Auth";
-import { Box, Button, Center, Flex, Slide } from "@chakra-ui/react";
+import {
+  Alert,
+  AlertIcon,
+  Box,
+  Button,
+  Center,
+  Flex,
+  Slide,
+} from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
-import { ILogin } from "../../api/AuthProtocols";
+import { ILogin } from "../../api/Protocols/AuthProtocols";
+
+interface ErroInterface {
+  status: boolean;
+  message: string;
+}
 
 const LoginPage: React.FC = () => {
   const [loading, setLoading] = React.useState<boolean>(false);
   const [form, setForm] = React.useState<ILogin>({ email: "", password: "" });
-
+  const errorRef = React.useRef<ErroInterface>({ status: false, message: "" });
   const navigate = useNavigate();
 
   function handleLoading(): void {
@@ -19,17 +32,21 @@ const LoginPage: React.FC = () => {
         setLoading(false);
       })
       .catch((err) => {
-        alert(err.message);
+        errorRef.current.status = true;
+        errorRef.current.message = err.message;
         setLoading(false);
       });
   }
 
   return (
     <Box minH={"100vh"} bg={"#902bf5"}>
-      <Slide
-        direction="top"
-        in={true}
-      >
+      {errorRef.current.status && (
+        <Alert status="error" justifyContent={"center"}>
+          <AlertIcon />
+          {errorRef.current.message}
+        </Alert>
+      )}
+      <Slide direction="top" in={true}>
         <Flex
           minH={"100vh"}
           width={"460px"}

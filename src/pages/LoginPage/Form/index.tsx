@@ -2,7 +2,7 @@ import React from "react";
 import { InputGroup, InputRightElement } from "@chakra-ui/react";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import InputField from "../../../components/InputField";
-import { ILogin } from "../../../api/AuthProtocols";
+import { ILogin } from "../../../api/Protocols/AuthProtocols";
 
 interface FormProps {
   form: ILogin;
@@ -16,10 +16,9 @@ const chakraStyles = {
   p: "8px 10px",
   border: "1px",
   borderColor: "gray.200",
-  borderRadius: "base",
+  borderRadius: "base",   
   display: "block",
 };
-
 
 const Form: React.FC<FormProps> = ({ form, setForm }) => {
   const [view, setView] = React.useState<boolean>(false);

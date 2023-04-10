@@ -3,22 +3,27 @@ import {
   Flex,
   FormControl,
   FormErrorMessage,
-  FormHelperText,
   Slide,
 } from "@chakra-ui/react";
+import { ArrowBackIcon } from "@chakra-ui/icons";
 import InputField from "../../components/InputField";
 import React, { useState } from "react";
 import AuthButton from "../../components/AuthButton";
 import Auth from "../../api/Auth";
-import { ILogin } from "../../api/AuthProtocols";
+import { ILogin } from "../../api/Protocols/AuthProtocols";
 import { useNavigate } from "react-router-dom";
 
 const inputStyles = {
-  variant: "Flushed",
+  variant: "Outline",
   w: "100%",
   h: "60px",
   p: "8px 10px",
+  mb: "10px",
   borderRadius: "base",
+};
+
+const authButtonStyles = {
+  mt: "10px",
 };
 
 const RegisterPage: React.FC = () => {
@@ -39,6 +44,16 @@ const RegisterPage: React.FC = () => {
   return (
     <Box minH={"100vh"} bg={"#902bf5"}>
       <Slide direction="top" in={true}>
+        <ArrowBackIcon
+          w={8}
+          h={8}
+          color="white"
+          margin={25}
+          cursor="pointer"
+          zIndex={2}
+          position="relative"
+          onClick={() => navigate("/")}
+        />
         <Flex
           align={"center"}
           flexDir={"column"}
@@ -55,14 +70,9 @@ const RegisterPage: React.FC = () => {
           >
             Faça o cadastro
           </Box>
-          <FormControl
-            display={"flex"}
-            gap={"10px"}
-            flexDir={"column"}
-            isInvalid={isError}
-          >
+          <FormControl isInvalid={isError} isRequired>
             {!form.email && (
-              <FormErrorMessage>Preencha este campo!</FormErrorMessage>
+              <FormErrorMessage>Email é requerido!</FormErrorMessage>
             )}
             <InputField
               type="text"
@@ -72,8 +82,8 @@ const RegisterPage: React.FC = () => {
               onChangeFunc={handleForm}
               {...inputStyles}
             />
-            {!form.email && (
-              <FormErrorMessage>Preencha este campo!</FormErrorMessage>
+            {!form.password && (
+              <FormErrorMessage>Senha é requerida!</FormErrorMessage>
             )}
             <InputField
               type="text"
@@ -88,6 +98,7 @@ const RegisterPage: React.FC = () => {
             size="md"
             variant="solid"
             onClick={handleSubmit}
+            {...authButtonStyles}
           >
             Registrar
           </AuthButton>
