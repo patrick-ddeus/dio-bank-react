@@ -27,7 +27,11 @@ const authButtonStyles = {
 };
 
 const RegisterPage: React.FC = () => {
-  const [form, setForm] = useState<ILogin>({ email: "", password: "", fullName: "" });
+  const [form, setForm] = useState<ILogin>({
+    email: "",
+    password: "",
+    fullName: "",
+  });
   const navigate = useNavigate();
   const isError = !form.email || !form.password;
 
@@ -37,8 +41,11 @@ const RegisterPage: React.FC = () => {
 
   function handleSubmit() {
     if (isError) return;
-    Auth.register(form).then(alert).catch(alert);
-    navigate("/");
+    Auth.register(form)
+      .then((response) => {
+        navigate("/welcome", { state: response });
+      })
+      .catch(alert);
   }
 
   return (

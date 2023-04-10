@@ -3,10 +3,10 @@ export interface ILogin {
   password: string;
   [key: string]: string;
   accountNumber?: any;
-  fullName?: any,
+  fullName?: any;
 }
 
 export interface AuthProtocols {
   login: (params: ILogin) => Promise<string | Error>;
-  register: (params: ILogin) => Promise<string | Error>;
+  register: (params: ILogin) => Promise<{ fullName: string } | Error>;
 }
