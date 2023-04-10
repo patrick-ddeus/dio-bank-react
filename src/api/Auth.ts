@@ -1,22 +1,13 @@
 import { AuthProtocols, ILogin } from "./Protocols/AuthProtocols";
+import Bank from "./Bank";
 
-const db: ILogin[] = [
-  {
-    email: "patrick@teste.com",
-    password: "123456",
-  },
-];
-
-function login({ email, password }: ILogin): Promise<string | Error> {
+function login(credentials: ILogin): Promise<string> {
   return new Promise(
     (resolve: (value: string) => void, reject: (value: Error) => void) => {
       setTimeout(() => {
-        const userInDb = db.find(
-          (user) => user.email === email && user.password === password
-        );
-
-        if (userInDb) {
-          resolve("Bem Vindo");
+        if (Bank.userExists(credentials)) {
+          const user = Bank.getCredentials(credentials)
+          resolve(`Bem Vindo ${user?.fullName}`);
         } else {
           reject(new Error("Usuário ou Senha inválidos"));
         }
@@ -25,14 +16,11 @@ function login({ email, password }: ILogin): Promise<string | Error> {
   );
 }
 
-function register({ email, password }: ILogin): Promise<string | Error> {
+function register({ email, password, fullName }: ILogin): Promise<string> {
   return new Promise((resolve: (value: string) => void, reject) => {
     setTimeout(() => {
-      const userInDb = db.find(
-        (user) => user.email === email && user.password === password
-      );
-      if (!userInDb) {
-        db.push({ email, password });
+      if (!Bank.userExists({ email, password })) {
+        Bank.createAccount(0, { email, password, fullName });
         resolve("Usuário Cadastrado com sucesso!");
       } else {
         reject(new Error("Usuário já cadastrado!"));

@@ -27,7 +27,7 @@ const authButtonStyles = {
 };
 
 const RegisterPage: React.FC = () => {
-  const [form, setForm] = useState<ILogin>({ email: "", password: "" });
+  const [form, setForm] = useState<ILogin>({ email: "", password: "", fullName: "" });
   const navigate = useNavigate();
   const isError = !form.email || !form.password;
 
@@ -90,6 +90,17 @@ const RegisterPage: React.FC = () => {
               placeholder="password"
               name="password"
               value={form.password}
+              onChangeFunc={handleForm}
+              {...inputStyles}
+            />
+            {!form.fullName && (
+              <FormErrorMessage>O nome é requerido!</FormErrorMessage>
+            )}
+            <InputField
+              type="text"
+              placeholder="fullname"
+              name="fullName"
+              value={form.fullName}
               onChangeFunc={handleForm}
               {...inputStyles}
             />
