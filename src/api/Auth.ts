@@ -25,6 +25,23 @@ function login({ email, password }: ILogin): Promise<string | Error> {
   );
 }
 
+function register({email, password}: ILogin): Promise<string | Error>{
+  return new Promise((resolve: (value: string) => void, reject) => {
+      setTimeout(() => {
+        const userInDb = db.find(
+          (user) => user.email === email && user.password === password
+        );
+        if(!userInDb){
+          db.push({email, password})
+          resolve("Usuário Cadastrado com sucesso!")
+        }else{
+          reject(new Error("Usuário já cadastrado!"))
+        }
+      }, 1200);
+  })
+}
+
 export default {
   login,
+  register
 } as AuthProtocols;

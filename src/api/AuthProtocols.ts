@@ -5,5 +5,6 @@ export interface ILogin {
   }
 
 export interface AuthProtocols{
-    login: (params: ILogin) => Promise<string | Error>
+    login: (params: ILogin) => Promise<string | Error>,
+    register: (params: ILogin) => Promise<string | Error>
 }

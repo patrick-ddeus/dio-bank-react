@@ -9,12 +9,24 @@ interface FormProps {
   setForm: React.Dispatch<React.SetStateAction<ILogin>>;
 }
 
+const chakraStyles = {
+  variant: "Flushed",
+  w: "100%",
+  h: "60px",
+  p: "8px 10px",
+  border: "1px",
+  borderColor: "gray.200",
+  borderRadius: "base",
+  display: "block",
+};
+
+
 const Form: React.FC<FormProps> = ({ form, setForm }) => {
   const [view, setView] = React.useState<boolean>(false);
 
   const handleView = (): void => setView(!view);
 
-  function handleForm(event: React.ChangeEvent<HTMLInputElement>) {
+  function handleForm(event: React.ChangeEvent<HTMLInputElement>): void {
     setForm((previousState) => {
       return {
         ...previousState,
@@ -29,10 +41,10 @@ const Form: React.FC<FormProps> = ({ form, setForm }) => {
         <InputField
           type="text"
           placeholder="email"
-          appearance="Flushed"
           name="email"
           value={form.email}
           onChangeFunc={handleForm}
+          {...chakraStyles}
         />
       </InputGroup>
 
@@ -40,10 +52,10 @@ const Form: React.FC<FormProps> = ({ form, setForm }) => {
         <InputField
           type={view ? "text" : "password"}
           placeholder="password"
-          appearance="Flushed"
           value={form.password}
           name="password"
           onChangeFunc={handleForm}
+          {...chakraStyles}
         />
         <InputRightElement
           onClick={handleView}
