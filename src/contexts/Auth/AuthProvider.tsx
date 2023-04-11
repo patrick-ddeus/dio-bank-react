@@ -10,7 +10,7 @@ interface AuthProvideProps {
   children: React.ReactNode;
 }
 
-const AuthContext = createContext<AuthContextProps>({
+export const AuthContext = createContext<AuthContextProps>({
   isAuthenticated: false,
   login: () => {},
   logout: () => {},

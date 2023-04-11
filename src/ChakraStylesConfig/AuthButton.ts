@@ -6,7 +6,7 @@ const AuthButton = defineStyleConfig({
     borderRadius: "base",
     w: "100%",
     cursor: "pointer",
-    _hover:{backgroundColor:"#2F855A", transition:"background .2s"}
+    _hover: { backgroundColor: "#2F855A", transition: "background .2s" }
   },
   sizes: {
     sm: {

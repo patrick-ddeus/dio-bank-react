@@ -4,14 +4,15 @@ import {
   FormControl,
   FormErrorMessage,
   Slide,
+  Button,
 } from "@chakra-ui/react";
 import { ArrowBackIcon } from "@chakra-ui/icons";
 import InputField from "../../components/InputField";
-import React, { useState } from "react";
-import AuthButton from "../../components/AuthButton";
+import React, { useContext, useState } from "react";
 import Auth from "../../api/Auth";
 import { ILogin } from "../../api/Protocols/AuthProtocols";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../../contexts/Auth/AuthProvider";
 
 const inputStyles = {
   variant: "Outline",
@@ -24,6 +25,8 @@ const inputStyles = {
 
 const authButtonStyles = {
   mt: "10px",
+  w: "100%",
+  colorScheme: "green",
 };
 
 const RegisterPage: React.FC = () => {
@@ -33,7 +36,9 @@ const RegisterPage: React.FC = () => {
     fullName: "",
   });
   const navigate = useNavigate();
-  const isError = !form.email || !form.password;
+  const isError = !form.email || !form.password || !form.fullName;
+  const { login } = useContext(AuthContext);
+  const [loading, setLoading] = useState<boolean>(false);
 
   function handleForm(event: React.ChangeEvent<HTMLInputElement>) {
     setForm({ ...form, [event.target.name]: event.target.value });
@@ -41,15 +46,21 @@ const RegisterPage: React.FC = () => {
 
   function handleSubmit() {
     if (isError) return;
+    setLoading(true);
     Auth.register(form)
       .then((response) => {
+        setLoading(false);
+        login();
         navigate("/welcome", { state: response });
       })
-      .catch(alert);
+      .catch((err) => {
+        alert(err.message);
+        setLoading(false);
+      });
   }
 
   return (
-    <Box minH={"100vh"} bg={"#902bf5"}>
+    <Box minH={"100vh"} bg={"#4F2958"}>
       <Slide direction="top" in={true}>
         <ArrowBackIcon
           w={8}
@@ -93,7 +104,7 @@ const RegisterPage: React.FC = () => {
               <FormErrorMessage>Senha é requerida!</FormErrorMessage>
             )}
             <InputField
-              type="text"
+              type="password"
               placeholder="password"
               name="password"
               value={form.password}
@@ -112,14 +123,15 @@ const RegisterPage: React.FC = () => {
               {...inputStyles}
             />
           </FormControl>
-          <AuthButton
+          <Button
             size="md"
             variant="solid"
             onClick={handleSubmit}
+            isLoading={loading}
             {...authButtonStyles}
           >
             Registrar
-          </AuthButton>
+          </Button>
         </Flex>
       </Slide>
     </Box>

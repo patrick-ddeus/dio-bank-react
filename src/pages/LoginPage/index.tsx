@@ -39,7 +39,7 @@ const LoginPage: React.FC = () => {
   }
 
   return (
-    <Box minH={"100vh"} bg={"#902bf5"}>
+    <Box minH={"100vh"} bg={"#4F2958"}>
       {errorRef.current.status && (
         <Alert status="error" justifyContent={"center"}>
           <AlertIcon />

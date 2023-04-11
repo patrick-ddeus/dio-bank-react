@@ -1,23 +1,38 @@
 import { Box, Flex } from "@chakra-ui/react";
 import { TypeAnimation } from "react-type-animation";
-import React from "react";
-import { useLocation } from "react-router-dom";
+import React, { useContext, useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { AuthContext } from "../../contexts/Auth/AuthProvider";
 
 const Index: React.FC = () => {
   const location = useLocation();
+  const { isAuthenticated } = useContext(AuthContext);
+  const navigate = useNavigate();
+  
+  useEffect(() => {
+    if (!isAuthenticated) {
+      navigate("/");
+    }
+  }, []);
+
   return (
-    <Box minH={"100vh"} bg={"#902bf5"}>
+    <Box minH={"100vh"} bgGradient={"linear(to-b, #733381, #1A1A1A)"}>
       <Flex minH={"100vh"} alignItems={"center"} justifyContent={"center"}>
         <TypeAnimation
           sequence={[
-            `Olá, seja bem vindo ${location.state}!`,
-            1000,
+            `Olá, seja bem vindo ${location.state.fullName},`,
+            800,
             "Estamos muito felizes por ter nos escolhido!",
-            1000,
+            800,
+            "Desejamos uma ótima experiência bancária!",
+            500,
+            () => {
+              navigate("/home", {state: location.state.fullName})
+            }
           ]}
           wrapper="span"
           cursor={true}
-          repeat={0}
+          repeat={Infinity}
           style={{
             color: "white",
             fontWeight: "600",
