@@ -12,7 +12,7 @@ class Account implements AccountProtocols {
     }  
 
     public withdraw(value: number): void | Error {
-        if(value < this.balance) {
+        if(value > this.balance) {
             throw new Error("Insufficient balance");
         }
         this.balance -= value

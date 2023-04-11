@@ -37,7 +37,7 @@ const RegisterPage: React.FC = () => {
   });
   const navigate = useNavigate();
   const isError = !form.email || !form.password || !form.fullName;
-  const { login } = useContext(AuthContext);
+  const { loginContext } = useContext(AuthContext);
   const [loading, setLoading] = useState<boolean>(false);
 
   function handleForm(event: React.ChangeEvent<HTMLInputElement>) {
@@ -50,7 +50,7 @@ const RegisterPage: React.FC = () => {
     Auth.register(form)
       .then((response) => {
         setLoading(false);
-        login();
+        loginContext();
         navigate("/welcome", { state: response });
       })
       .catch((err) => {

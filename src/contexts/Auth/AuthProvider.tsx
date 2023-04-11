@@ -2,8 +2,8 @@ import React, { createContext } from "react";
 
 interface AuthContextProps {
   isAuthenticated: boolean;
-  login: () => void;
-  logout: () => void;
+  loginContext: () => void;
+  logoutContext: () => void;
 }
 
 interface AuthProvideProps {
@@ -12,23 +12,25 @@ interface AuthProvideProps {
 
 export const AuthContext = createContext<AuthContextProps>({
   isAuthenticated: false,
-  login: () => {},
-  logout: () => {},
+  loginContext: () => {},
+  logoutContext: () => {},
 });
 
 const AuthProvider: React.FC<AuthProvideProps> = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = React.useState(false);
 
-  const login = () => {
+  const loginContext = () => {
     setIsAuthenticated(true);
   };
 
-  const logout = () => {
+  const logoutContext = () => {
     setIsAuthenticated(false);
   };
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, login, logout }}>
+    <AuthContext.Provider
+      value={{ isAuthenticated, loginContext, logoutContext }}
+    >
       {children}
     </AuthContext.Provider>
   );

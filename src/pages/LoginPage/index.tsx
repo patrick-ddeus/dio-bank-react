@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import Form from "./Form";
 import Auth from "../../api/Auth";
 import {
@@ -12,6 +12,7 @@ import {
 } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import { ILogin } from "../../api/Protocols/AuthProtocols";
+import { AuthContext } from "../../contexts/Auth/AuthProvider";
 
 interface ErroInterface {
   status: boolean;
@@ -23,12 +24,14 @@ const LoginPage: React.FC = () => {
   const [form, setForm] = React.useState<ILogin>({ email: "", password: "" });
   const errorRef = React.useRef<ErroInterface>({ status: false, message: "" });
   const navigate = useNavigate();
+  const { loginContext } = useContext(AuthContext);
 
   function handleLoading(): void {
     setLoading(true);
     Auth.login(form)
       .then((response) => {
         alert(response);
+        loginContext();
         setLoading(false);
       })
       .catch((err) => {
