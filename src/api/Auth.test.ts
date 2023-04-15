@@ -9,7 +9,7 @@ describe("Teste de função login", () => {
     Auth.register({
       email: "fulano@teste.com",
       password: "123",
-      fullName: "fulano",
+      fullname: "fulano",
     });
 
     await expect(
@@ -21,7 +21,7 @@ describe("Teste de função login", () => {
     Auth.register({
       email: "fulano@teste3.com",
       password: "123",
-      fullName: "fulano",
+      fullname: "fulano",
     });
 
     await expect(
@@ -36,7 +36,7 @@ describe("Teste de função register", () => {
       Auth.register({
         email: "fulano2@teste.com",
         password: "123",
-        fullName: "fulano",
+        fullname: "fulano",
       })
     ).resolves.toEqual({ fullName: "fulano" });
   });
@@ -46,7 +46,7 @@ describe("Teste de função register", () => {
       Auth.register({
         email: "fulano2@teste.com",
         password: "123",
-        fullName: "fulano",
+        fullname: "fulano",
       })
     ).rejects.toThrow("Usuário já cadastrado!");
   });

@@ -13,6 +13,7 @@ import Auth from "../../api/Auth";
 import { ILogin } from "../../api/Protocols/AuthProtocols";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../contexts/Auth/AuthProvider";
+import axios from "axios";
 
 const inputStyles = {
   variant: "Outline",
@@ -33,29 +34,32 @@ const RegisterPage: React.FC = () => {
   const [form, setForm] = useState<ILogin>({
     email: "",
     password: "",
-    fullName: "",
+    fullname: "",
   });
   const navigate = useNavigate();
-  const isError = !form.email || !form.password || !form.fullName;
+  const isError = !form.email || !form.password || !form.fullname;
   const { loginContext } = useContext(AuthContext);
   const [loading, setLoading] = useState<boolean>(false);
 
   function handleForm(event: React.ChangeEvent<HTMLInputElement>) {
     setForm({ ...form, [event.target.name]: event.target.value });
+
   }
 
   function handleSubmit() {
     if (isError) return;
     setLoading(true);
-    Auth.register(form)
+    axios
+      .post("http://localhost:5000/users", form)
       .then((response) => {
         setLoading(false);
-        loginContext();
-        navigate("/welcome", { state: response });
+        loginContext(response.data.user.token)
+        navigate("/welcome", { state: form.fullname });
+        console.log(response);
       })
       .catch((err) => {
-        alert(err.message);
         setLoading(false);
+        console.log(err);
       });
   }
 
@@ -111,14 +115,14 @@ const RegisterPage: React.FC = () => {
               onChangeFunc={handleForm}
               {...inputStyles}
             />
-            {!form.fullName && (
+            {!form.fullname && (
               <FormErrorMessage>O nome é requerido!</FormErrorMessage>
             )}
             <InputField
               type="text"
               placeholder="fullname"
-              name="fullName"
-              value={form.fullName}
+              name="fullname"
+              value={form.fullname}
               onChangeFunc={handleForm}
               {...inputStyles}
             />

@@ -2,7 +2,7 @@ import React, { createContext } from "react";
 
 interface AuthContextProps {
   isAuthenticated: boolean;
-  loginContext: () => void;
+  loginContext: (token: string) => void;
   logoutContext: () => void;
 }
 
@@ -19,8 +19,9 @@ export const AuthContext = createContext<AuthContextProps>({
 const AuthProvider: React.FC<AuthProvideProps> = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = React.useState(false);
 
-  const loginContext = () => {
+  const loginContext = (token: string) => {
     setIsAuthenticated(true);
+    localStorage.setItem("userInfo", JSON.stringify({ token }));
   };
 
   const logoutContext = () => {

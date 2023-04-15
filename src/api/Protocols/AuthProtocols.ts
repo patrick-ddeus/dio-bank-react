@@ -3,7 +3,7 @@ export interface ILogin {
   password: string;
   [key: string]: string;
   accountNumber?: any;
-  fullName?: any;
+  fullname?: any;
 }
 
 export interface AuthProtocols {

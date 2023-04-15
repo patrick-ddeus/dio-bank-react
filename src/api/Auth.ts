@@ -7,7 +7,7 @@ function login(credentials: ILogin): Promise<string> {
       setTimeout(() => {
         if (Bank.userExists(credentials)) {
           const user = Bank.getCredentials(credentials);
-          resolve(`Bem Vindo ${user?.fullName}`);
+          resolve(`Bem Vindo ${user?.fullname}`);
         } else {
           reject(new Error("Usuário ou Senha inválidos"));
         }
@@ -19,7 +19,7 @@ function login(credentials: ILogin): Promise<string> {
 function register({
   email,
   password,
-  fullName,
+  fullname: fullName,
 }: ILogin): Promise<{ fullName: string } | Error> {
   return new Promise(
     (
@@ -28,7 +28,7 @@ function register({
     ) => {
       setTimeout(() => {
         if (!Bank.userExists({ email, password })) {
-          Bank.createAccount(0, { email, password, fullName });
+          Bank.createAccount(0, { email, password, fullname: fullName });
           resolve({ fullName });
         } else {
           reject(new Error("Usuário já cadastrado!"));

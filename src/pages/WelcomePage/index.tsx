@@ -21,14 +21,14 @@ const Index: React.FC = () => {
         <Flex minH={"100vh"} alignItems={"center"} justifyContent={"center"}>
           <TypeAnimation
             sequence={[
-              `Olá, seja bem vindo ${location.state.fullName},`,
+              `Olá, seja bem vindo ${location.state},`,
               800,
               "Estamos muito felizes por ter nos escolhido!",
               800,
               "Desejamos uma ótima experiência bancária!",
               500,
               () => {
-                navigate("/home", { state: location.state.fullName });
+                navigate("/home", { state: location.state });
               },
             ]}
             wrapper="span"

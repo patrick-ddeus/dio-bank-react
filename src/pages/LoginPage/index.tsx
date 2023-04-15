@@ -1,6 +1,5 @@
 import React, { useContext } from "react";
 import Form from "./Form";
-import Auth from "../../api/Auth";
 import {
   Alert,
   AlertIcon,
@@ -13,6 +12,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { ILogin } from "../../api/Protocols/AuthProtocols";
 import { AuthContext } from "../../contexts/Auth/AuthProvider";
+import axios from "axios";
 
 interface ErroInterface {
   status: boolean;
@@ -28,16 +28,21 @@ const LoginPage: React.FC = () => {
 
   function handleLoading(): void {
     setLoading(true);
-    Auth.login(form)
+    errorRef.current.status = false;
+
+    axios
+      .post("http://localhost:5000/auth", form)
       .then((response) => {
-        alert(response);
-        loginContext();
         setLoading(false);
+        loginContext(response.data.token)
+        navigate("/home", {state: response.data.user.fullname})
+        console.log(response);
       })
       .catch((err) => {
-        errorRef.current.status = true;
-        errorRef.current.message = err.message;
         setLoading(false);
+        console.log(err);
+        errorRef.current.status = true;
+        errorRef.current.message = err.response.data.message;
       });
   }
 
