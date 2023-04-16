@@ -1,11 +1,21 @@
 import React, { useContext, useEffect } from "react";
-import { BellIcon } from "@chakra-ui/icons";
-import { Flex, Text, Box, Grid, useDisclosure } from "@chakra-ui/react";
+import {
+  Box,
+  Grid,
+  GridItem,
+  useDisclosure,
+  Stat,
+  StatLabel,
+  StatNumber,
+  StatHelpText,
+  Flex,
+} from "@chakra-ui/react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../contexts/Auth/AuthProvider";
-import { headerFlexStyles, mainPageGrid } from "./styles";
-import MenuSide from "./MenuSide";
+import { mainPageGrid } from "./styles";
+import Sidebar from "./Sidebar";
 import DrawerUser from "./Drawer";
+import Header from "./Header";
 
 const MainPage: React.FC = () => {
   const { isAuthenticated } = useContext(AuthContext);
@@ -22,17 +32,27 @@ const MainPage: React.FC = () => {
 
   return (
     <Box minHeight={"100vh"} bg={"#232323"}>
-      <Flex {...headerFlexStyles}>
-        <Text as="b" fontSize="lg">
-          DioBank
-        </Text>
-        <Text fontWeight={500}>Dashboard</Text>
-        <Flex>
-          <BellIcon w={5} h={5} cursor="pointer" />
-        </Flex>
-      </Flex>
+      <Header />
       <Grid {...mainPageGrid}>
-        <MenuSide onOpen={onOpen} />
+        <Sidebar onOpen={onOpen} username={location.state} />
+        <GridItem>
+          <Box
+            w={"60%"}
+            h={"300px"}
+            bg={"white"}
+            m={"50px auto"}
+            borderRadius={"50px"}
+          >
+            <Box p={"40px"} display={"flex"} gap={"60px"} w={"90%"} m={"0 auto"}>
+              <Stat>
+                <StatLabel mb={"20px"} fontWeight={"600"}>My Balance</StatLabel>
+                <StatNumber mb={"10px"} fontSize={"4rem"}>R$ 0,00</StatNumber>
+                <StatHelpText>Feb 12 - Feb 28</StatHelpText>
+              </Stat>
+            </Box>
+          </Box>
+        </GridItem>
+        <GridItem></GridItem>
       </Grid>
       <DrawerUser isOpen={isOpen} onClose={onClose} />
     </Box>

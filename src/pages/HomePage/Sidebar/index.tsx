@@ -22,12 +22,17 @@ import {
   avatarStyles,
   logoutButton,
 } from "./styles";
+import { AuthContext } from "../../../contexts/Auth/AuthProvider";
+import { useNavigate } from "react-router-dom";
 
 interface MenuSideProps {
   onOpen: () => void;
+  username: string;
 }
 
-const MenuSide: React.FC<MenuSideProps> = ({ onOpen }) => {
+const Sidebar: React.FC<MenuSideProps> = ({ onOpen, username }) => {
+  const { logoutContext } = React.useContext(AuthContext);
+  const navigate = useNavigate();
   return (
     <GridItem borderRight="1px solid #333" position={"relative"}>
       <List {...menuStyles}>
@@ -56,7 +61,7 @@ const MenuSide: React.FC<MenuSideProps> = ({ onOpen }) => {
                 as={Button}
                 rightIcon={<ChevronDownIcon />}
               >
-                Patrick
+                {username}
               </MenuButton>
               <MenuList>
                 <MenuGroup title="profile">
@@ -66,7 +71,14 @@ const MenuSide: React.FC<MenuSideProps> = ({ onOpen }) => {
             </Menu>
           </div>
         </Flex>
-        <Button {...logoutButton} leftIcon={<BiLogOut />}>
+        <Button
+          {...logoutButton}
+          leftIcon={<BiLogOut />}
+          onClick={() => {
+            logoutContext();
+            navigate("/");
+          }}
+        >
           Deslogar
         </Button>
       </Box>
@@ -74,4 +86,4 @@ const MenuSide: React.FC<MenuSideProps> = ({ onOpen }) => {
   );
 };
 
-export default MenuSide;
+export default Sidebar;
