@@ -1,10 +1,11 @@
-import React from "react";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import WelcomePage from "./pages/WelcomePage";
 import AuthProvider from "./contexts/Auth/AuthProvider";
-import MainPage from "./pages/MainPage";
+import MainPage from "./pages/HomePage";
+import "@fontsource/roboto";
+
 function App() {
   return (
     <Router>

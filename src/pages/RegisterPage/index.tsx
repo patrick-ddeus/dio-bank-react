@@ -53,7 +53,7 @@ const RegisterPage: React.FC = () => {
       .post("http://localhost:5000/users", form)
       .then((response) => {
         setLoading(false);
-        loginContext(response.data.user.token)
+        loginContext(response.data.token)
         navigate("/welcome", { state: form.fullname });
         console.log(response);
       })

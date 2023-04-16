@@ -12,7 +12,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { ILogin } from "../../api/Protocols/AuthProtocols";
 import { AuthContext } from "../../contexts/Auth/AuthProvider";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 
 interface ErroInterface {
   status: boolean;
@@ -23,27 +23,26 @@ const LoginPage: React.FC = () => {
   const [loading, setLoading] = React.useState<boolean>(false);
   const [form, setForm] = React.useState<ILogin>({ email: "", password: "" });
   const errorRef = React.useRef<ErroInterface>({ status: false, message: "" });
+
   const navigate = useNavigate();
   const { loginContext } = useContext(AuthContext);
 
-  function handleLoading(): void {
+  async function handleLoading(): Promise<void> {
     setLoading(true);
     errorRef.current.status = false;
 
-    axios
-      .post("http://localhost:5000/auth", form)
-      .then((response) => {
-        setLoading(false);
-        loginContext(response.data.token)
-        navigate("/home", {state: response.data.user.fullname})
-        console.log(response);
-      })
-      .catch((err) => {
-        setLoading(false);
-        console.log(err);
-        errorRef.current.status = true;
-        errorRef.current.message = err.response.data.message;
-      });
+    try {
+      const response = await axios.post("http://localhost:5000/auth", form);
+      loginContext(response.data.token);
+      console.log(response.data);
+      navigate("/home", { state: response.data.fullname });
+    } catch (err: any) {
+      errorRef.current.status = true;
+      errorRef.current.message = err?.response?.data?.message || {};
+      console.log(err)
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (

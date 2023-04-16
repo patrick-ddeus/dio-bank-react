@@ -6,6 +6,12 @@ export interface ILogin {
   fullname?: any;
 }
 
+export interface IRegister{
+  email: string;
+  password: string;
+  fullname: string;
+}
+
 export interface AuthProtocols {
   login: (params: ILogin) => Promise<string | Error>;
   register: (params: ILogin) => Promise<{ fullName: string } | Error>;

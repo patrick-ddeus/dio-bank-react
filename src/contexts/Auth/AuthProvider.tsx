@@ -16,8 +16,12 @@ export const AuthContext = createContext<AuthContextProps>({
   logoutContext: () => {},
 });
 
+const initValue = localStorage.getItem("userInfo");
+
 const AuthProvider: React.FC<AuthProvideProps> = ({ children }) => {
-  const [isAuthenticated, setIsAuthenticated] = React.useState(false);
+  const [isAuthenticated, setIsAuthenticated] = React.useState(
+    initValue ? true : false
+  );
 
   const loginContext = (token: string) => {
     setIsAuthenticated(true);
@@ -26,6 +30,7 @@ const AuthProvider: React.FC<AuthProvideProps> = ({ children }) => {
 
   const logoutContext = () => {
     setIsAuthenticated(false);
+    localStorage.removeItem("userInfo");
   };
 
   return (
