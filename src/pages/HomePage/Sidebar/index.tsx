@@ -48,7 +48,7 @@ const Sidebar: React.FC<MenuSideProps> = ({ onOpen, username }) => {
       </List>
       <Box position="absolute" left="10px" bottom="40px" w="90%">
         <Flex {...avatarStyles}>
-          <Avatar src="https://bit.ly/broken-link" />
+          <Avatar src="https://cdn.discordapp.com/attachments/852899847446069248/1097738381993185300/WhatsApp_Image_2022-12-11_at_11.07.07.jpeg" />
           <div>
             <p style={{ color: "#858585", fontSize: "14px" }}>
               Bem vindo de volta!

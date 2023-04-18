@@ -13,6 +13,7 @@ import {
 } from "@chakra-ui/react";
 import axios from "axios";
 import { ModalTypes } from "../index";
+import { TransactionRequest } from "../../index";
 
 interface modalProps {
   isOpen: boolean;
@@ -20,6 +21,7 @@ interface modalProps {
   setCurrentBalance: React.Dispatch<React.SetStateAction<number>>;
   type: ModalTypes;
   balance: number;
+  setTransactions: React.Dispatch<React.SetStateAction<TransactionRequest[]>>;
 }
 
 const DepositModal: React.FC<modalProps> = ({
@@ -28,6 +30,7 @@ const DepositModal: React.FC<modalProps> = ({
   setCurrentBalance,
   type,
   balance,
+  setTransactions,
 }) => {
   const [value, setValue] = React.useState<string>("0");
   const [loading, setLoading] = React.useState<boolean>(false);
@@ -39,7 +42,7 @@ const DepositModal: React.FC<modalProps> = ({
   async function handleDeposit() {
     const depositOrWithdraw =
       type === ModalTypes.Deposit ? "deposit" : "withdraw";
-      
+
     setLoading(true);
 
     try {
@@ -49,11 +52,17 @@ const DepositModal: React.FC<modalProps> = ({
         { headers: { Authorization: `Bearer ${parsedUserInfo.token}` } }
       );
 
-      if(depositOrWithdraw === "deposit"){
+      if (depositOrWithdraw === "deposit") {
         setCurrentBalance((previousState) => previousState + Number(value));
-      }else{
+      } else {
         setCurrentBalance((previousState) => previousState - Number(value));
       }
+      
+      setTransactions((previousState) => [
+        ...previousState,
+        { type: depositOrWithdraw, amount: Number(value), date: new Date() },
+      ]);
+     
 
       onClose();
     } catch (err: any) {

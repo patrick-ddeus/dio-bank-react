@@ -7,19 +7,30 @@ import Sidebar from "./Sidebar";
 import DrawerUser from "./Drawer";
 import Header from "./Header";
 import Balance from "./Balance";
-import Transactions from "./Transactions"
+import Transactions from "./Transactions";
+
+export interface TransactionRequest {
+  _id?: number;
+  type: string;
+  amount: number;
+  date: Date;
+}
 
 const MainPage: React.FC = () => {
   const { isAuthenticated } = useContext(AuthContext);
   const navigate = useNavigate();
   const location = useLocation();
-
+  const [transactions, setTransactions] = React.useState<TransactionRequest[]>(
+    []
+  );
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   useEffect(() => {
     if (!isAuthenticated) {
       navigate("/");
     }
+
+    console.log(location.state);
   }, []);
 
   return (
@@ -27,8 +38,8 @@ const MainPage: React.FC = () => {
       <Header />
       <Grid {...mainPageGrid}>
         <Sidebar onOpen={onOpen} username={location.state.fullname} />
-        <Balance accountNumber={location.state.accountNumber} />
-        <Transactions/>
+        <Balance accountNumber={location.state.accountNumber} setTransactions={setTransactions}/>
+        <Transactions transactions={transactions} setTransactions={setTransactions}/>
       </Grid>
       <DrawerUser isOpen={isOpen} onClose={onClose} />
     </Box>

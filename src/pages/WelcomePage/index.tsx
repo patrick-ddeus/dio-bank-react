@@ -13,6 +13,8 @@ const Index: React.FC = () => {
     if (!isAuthenticated) {
       navigate("/");
     }
+
+    console.log(location.state)
   }, []);
 
   return (
@@ -21,7 +23,7 @@ const Index: React.FC = () => {
         <Flex minH={"100vh"} alignItems={"center"} justifyContent={"center"}>
           <TypeAnimation
             sequence={[
-              `Olá, seja bem vindo ${location.state},`,
+              `Olá, seja bem vindo ${location.state.fullname},`,
               800,
               "Estamos muito felizes por ter nos escolhido!",
               800,

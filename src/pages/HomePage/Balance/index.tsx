@@ -14,12 +14,13 @@ import {
 } from "@chakra-ui/react";
 import { IoCopyOutline } from "react-icons/io5";
 import { buttonsStyles } from "./styles";
+import { TransactionRequest } from "../index";
 import DepositModal from "./DepositModal";
 import axios from "axios";
-import { useLocation } from "react-router-dom";
 
 interface BalanceProps {
   accountNumber: string;
+  setTransactions: React.Dispatch<React.SetStateAction<TransactionRequest[]>>;
 }
 
 export enum ModalTypes {
@@ -27,22 +28,21 @@ export enum ModalTypes {
   Withdraw,
 }
 
-const Balance: React.FC<BalanceProps> = ({ accountNumber }) => {
+const Balance: React.FC<BalanceProps> = ({ accountNumber, setTransactions }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [balance, setBalance] = React.useState<number>(0);
   const [typeModal, setTypeModal] = React.useState<ModalTypes>(
     ModalTypes.Deposit
   );
-  const location = useLocation();
+  const userinfo = JSON.parse(localStorage.getItem("userInfo") || "");
 
   React.useEffect(() => {
     async function getBalance() {
       try {
         const response = await axios.get(
           "http://localhost:5000/accounts/balance",
-          { headers: { Authorization: `Bearer ${location.state.token}` } }
+          { headers: { Authorization: `Bearer ${userinfo.token}` } }
         );
-
         const { balance } = response.data;
 
         setBalance(balance);
@@ -128,6 +128,7 @@ const Balance: React.FC<BalanceProps> = ({ accountNumber }) => {
         setCurrentBalance={setBalance}
         balance={balance}
         type={typeModal}
+        setTransactions={setTransactions}
       />
     </GridItem>
   );
