@@ -33,8 +33,9 @@ interface MenuSideProps {
 const Sidebar: React.FC<MenuSideProps> = ({ onOpen, username }) => {
   const { logoutContext } = React.useContext(AuthContext);
   const navigate = useNavigate();
+  
   return (
-    <GridItem borderRight="1px solid #333" position={"relative"}>
+    <GridItem borderRight="1px solid #333" position={"relative"} minWidth={"280px"}>
       <List {...menuStyles}>
         <ListItem {...listItemStyles}>
           <Icon as={BiHomeAlt} fontSize={"25px"} w={12} />
@@ -61,7 +62,7 @@ const Sidebar: React.FC<MenuSideProps> = ({ onOpen, username }) => {
                 as={Button}
                 rightIcon={<ChevronDownIcon />}
               >
-                {username}
+                {`${username.split(" ")[0]}  ${username.split(" ").slice(-1)}`}
               </MenuButton>
               <MenuList>
                 <MenuGroup title="profile">

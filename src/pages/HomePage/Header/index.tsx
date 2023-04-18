@@ -1,5 +1,5 @@
 import React from "react";
-import { Flex, Text} from "@chakra-ui/react";
+import { Flex, Text } from "@chakra-ui/react";
 import { BellIcon } from "@chakra-ui/icons";
 import { headerFlexStyles } from "./styles";
 
@@ -7,7 +7,7 @@ const Header: React.FC = () => {
   return (
     <Flex {...headerFlexStyles}>
       <Text as="b" fontSize="lg">
-        DioBank
+        FortBank
       </Text>
       <Text fontWeight={500}>Dashboard</Text>
       <Flex>

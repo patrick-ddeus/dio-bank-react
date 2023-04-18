@@ -4,9 +4,10 @@ import { ChangeEventHandler } from "react";
 interface InputIF {
   type: string;
   placeholder: string;
-  onChangeFunc?:ChangeEventHandler<HTMLInputElement>,
-  value?:string,
-  name?:string
+  id?: string;
+  onChangeFunc?: ChangeEventHandler<HTMLInputElement>;
+  value?: string;
+  name?: string;
 }
 
 const InputField: React.FC<InputIF> = ({
@@ -15,9 +16,9 @@ const InputField: React.FC<InputIF> = ({
   onChangeFunc,
   value,
   name,
+  id,
   ...rest
 }) => {
- 
   return (
     <Input
       type={type}
@@ -25,6 +26,7 @@ const InputField: React.FC<InputIF> = ({
       onChange={onChangeFunc}
       value={value}
       name={name}
+      id={id}
       {...rest}
     />
   );

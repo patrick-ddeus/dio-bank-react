@@ -32,14 +32,26 @@ const LoginPage: React.FC = () => {
     errorRef.current.status = false;
 
     try {
-      const response = await axios.post("http://localhost:5000/auth", form);
-      loginContext(response.data.token);
-      console.log(response.data);
-      navigate("/home", { state: response.data.fullname });
+      const response = await axios.post(
+        "http://localhost:5000/auth/login",
+        form
+      );
+
+      const { fullname, accountNumber, balance, token } = response.data;
+      
+      loginContext(token);
+
+      navigate("/home", {
+        state: {
+          fullname,
+          accountNumber,
+          balance,
+          token
+        },
+      });
     } catch (err: any) {
       errorRef.current.status = true;
       errorRef.current.message = err?.response?.data?.message || {};
-      console.log(err)
     } finally {
       setLoading(false);
     }

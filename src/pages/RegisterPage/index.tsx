@@ -43,24 +43,31 @@ const RegisterPage: React.FC = () => {
 
   function handleForm(event: React.ChangeEvent<HTMLInputElement>) {
     setForm({ ...form, [event.target.name]: event.target.value });
-
   }
 
-  function handleSubmit() {
+  async function handleSubmit() {
     if (isError) return;
     setLoading(true);
-    axios
-      .post("http://localhost:5000/users", form)
-      .then((response) => {
-        setLoading(false);
-        loginContext(response.data.token)
-        navigate("/welcome", { state: form.fullname });
-        console.log(response);
-      })
-      .catch((err) => {
-        setLoading(false);
-        console.log(err);
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/auth/register",
+        form
+      );
+      loginContext(response.data.token);
+
+      const { fullname, accountNumber, balance } = response.data;
+      navigate("/welcome", {
+        state: {
+          fullname,
+          accountNumber,
+          balance,
+        },
       });
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
@@ -102,6 +109,7 @@ const RegisterPage: React.FC = () => {
               name="email"
               value={form.email}
               onChangeFunc={handleForm}
+              id={"email"}
               {...inputStyles}
             />
             {!form.password && (
@@ -113,6 +121,7 @@ const RegisterPage: React.FC = () => {
               name="password"
               value={form.password}
               onChangeFunc={handleForm}
+              id={"password"}
               {...inputStyles}
             />
             {!form.fullname && (
@@ -124,6 +133,7 @@ const RegisterPage: React.FC = () => {
               name="fullname"
               value={form.fullname}
               onChangeFunc={handleForm}
+              id={"fullname"}
               {...inputStyles}
             />
           </FormControl>
