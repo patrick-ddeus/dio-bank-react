@@ -37,15 +37,23 @@ const DepositModal: React.FC<modalProps> = ({
   const parsedUserInfo = JSON.parse(userInfo);
 
   async function handleDeposit() {
+    const depositOrWithdraw =
+      type === ModalTypes.Deposit ? "deposit" : "withdraw";
+      
     setLoading(true);
+
     try {
       await axios.post(
-        "http://localhost:5000/accounts/deposit",
+        `http://localhost:5000/accounts/${depositOrWithdraw}`,
         { balance: Number(value) },
         { headers: { Authorization: `Bearer ${parsedUserInfo.token}` } }
       );
 
-      setCurrentBalance((previousState) => previousState + Number(value));
+      if(depositOrWithdraw === "deposit"){
+        setCurrentBalance((previousState) => previousState + Number(value));
+      }else{
+        setCurrentBalance((previousState) => previousState - Number(value));
+      }
 
       onClose();
     } catch (err: any) {

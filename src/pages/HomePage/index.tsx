@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from "react";
-import { Box, Grid, GridItem, useDisclosure } from "@chakra-ui/react";
+import { Box, Grid, useDisclosure } from "@chakra-ui/react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../contexts/Auth/AuthProvider";
 import { mainPageGrid } from "./styles";
@@ -7,6 +7,7 @@ import Sidebar from "./Sidebar";
 import DrawerUser from "./Drawer";
 import Header from "./Header";
 import Balance from "./Balance";
+import Transactions from "./Transactions"
 
 const MainPage: React.FC = () => {
   const { isAuthenticated } = useContext(AuthContext);
@@ -27,7 +28,7 @@ const MainPage: React.FC = () => {
       <Grid {...mainPageGrid}>
         <Sidebar onOpen={onOpen} username={location.state.fullname} />
         <Balance accountNumber={location.state.accountNumber} />
-        <GridItem></GridItem>
+        <Transactions/>
       </Grid>
       <DrawerUser isOpen={isOpen} onClose={onClose} />
     </Box>

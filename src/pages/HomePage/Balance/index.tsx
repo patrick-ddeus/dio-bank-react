@@ -64,7 +64,7 @@ const Balance: React.FC<BalanceProps> = ({ accountNumber }) => {
   }
 
   return (
-    <GridItem>
+    <GridItem minWidth={"750px"}>
       <Box
         w={"75%"}
         h={"350px"}
