@@ -1,19 +1,23 @@
-import { Box } from "@chakra-ui/react";
 import React from "react";
+import { Flex, Text } from "@chakra-ui/react";
+import { BellIcon } from "@chakra-ui/icons";
+import { headerFlexStyles } from "./styles";
 
-const Header: React.FC = () => {
+interface HeaderProps {
+  title: string;
+}
+
+const Header: React.FC<HeaderProps> = ({ title }) => {
   return (
-    <Box
-      as={"header"}
-      display={"flex"}
-      justifyContent={"center"}
-      position={"fixed"}
-      width={"100%"}
-    >
-      <Box as={"h1"} color={"black"} fontSize={"3.5rem"} fontWeight={"700"}>
-        Dio Bank
-      </Box>
-    </Box>
+    <Flex {...headerFlexStyles}>
+      <Text as="b" fontSize="lg">
+        FortBank
+      </Text>
+      <Text fontWeight={500}>{title}</Text>
+      <Flex>
+        <BellIcon w={5} h={5} cursor="pointer" />
+      </Flex>
+    </Flex>
   );
 };
 

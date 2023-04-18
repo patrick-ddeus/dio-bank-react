@@ -3,9 +3,9 @@ import { Box, Grid, useDisclosure } from "@chakra-ui/react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../contexts/Auth/AuthProvider";
 import { mainPageGrid } from "./styles";
-import Sidebar from "./Sidebar";
-import DrawerUser from "./Drawer";
-import Header from "./Header";
+import Sidebar from "../../components/Sidebar";
+import DrawerUser from "../../components/Drawer";
+import Header from "../../components/Header";
 import Balance from "./Balance";
 import Transactions from "./Transactions";
 
@@ -18,6 +18,7 @@ export interface TransactionRequest {
 
 const MainPage: React.FC = () => {
   const { isAuthenticated } = useContext(AuthContext);
+  const [balance, setBalance] = React.useState<number>(0);
   const navigate = useNavigate();
   const location = useLocation();
   const [transactions, setTransactions] = React.useState<TransactionRequest[]>(
@@ -29,17 +30,28 @@ const MainPage: React.FC = () => {
     if (!isAuthenticated) {
       navigate("/");
     }
-
-    console.log(location.state);
   }, []);
 
   return (
     <Box minHeight={"100vh"} bg={"#232323"}>
-      <Header />
+      <Header title={"Painel de Controle"} />
       <Grid {...mainPageGrid}>
-        <Sidebar onOpen={onOpen} username={location.state.fullname} />
-        <Balance accountNumber={location.state.accountNumber} setTransactions={setTransactions}/>
-        <Transactions transactions={transactions} setTransactions={setTransactions}/>
+        <Sidebar
+          onOpen={onOpen}
+          username={location.state.fullname}
+          balance={balance}
+          setTransactions={setTransactions}
+        />
+        <Balance
+          accountNumber={location.state.accountNumber}
+          setTransactions={setTransactions}
+          balance={balance}
+          setBalance={setBalance}
+        />
+        <Transactions
+          transactions={transactions}
+          setTransactions={setTransactions}
+        />
       </Grid>
       <DrawerUser isOpen={isOpen} onClose={onClose} />
     </Box>

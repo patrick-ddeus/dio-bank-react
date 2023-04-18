@@ -22,28 +22,63 @@ import {
   avatarStyles,
   logoutButton,
 } from "./styles";
-import { AuthContext } from "../../../contexts/Auth/AuthProvider";
-import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../../contexts/Auth/AuthProvider";
+import { useLocation, useNavigate } from "react-router-dom";
+import { TransactionRequest } from "../../pages/HomePage";
 
 interface MenuSideProps {
   onOpen: () => void;
   username: string;
+  balance: number;
+  setTransactions?: React.Dispatch<React.SetStateAction<TransactionRequest[]>>;
 }
 
-const Sidebar: React.FC<MenuSideProps> = ({ onOpen, username }) => {
+const Sidebar: React.FC<MenuSideProps> = ({
+  onOpen,
+  username,
+  balance,
+  setTransactions,
+}) => {
   const { logoutContext } = React.useContext(AuthContext);
   const navigate = useNavigate();
-  
+  const location = useLocation();
+
   return (
-    <GridItem borderRight="1px solid #333" position={"relative"} minWidth={"280px"}>
+    <GridItem
+      borderRight="1px solid #333"
+      position={"relative"}
+      minWidth={"280px"}
+    >
       <List {...menuStyles}>
-        <ListItem {...listItemStyles}>
+        <ListItem
+          {...listItemStyles}
+          onClick={() =>
+            navigate("/home", {
+              state: {
+                fullname: username,
+                accountNumber: location.state.accountNumber,
+                balance,
+              },
+            })
+          }
+        >
           <Icon as={BiHomeAlt} fontSize={"25px"} w={12} />
-          Dashboard
+          Painel de Controle
         </ListItem>
-        <ListItem {...listItemStyles}>
+        <ListItem
+          {...listItemStyles}
+          onClick={() =>
+            navigate("/home/transferences", {
+              state: {
+                fullname: username,
+                accountNumber: location.state.accountNumber,
+                balance,
+              },
+            })
+          }
+        >
           <Icon as={BiWallet} fontSize={"25px"} w={12} />
-          Transactions
+          Transferências
         </ListItem>
       </List>
       <Box position="absolute" left="10px" bottom="40px" w="90%">
@@ -76,6 +111,9 @@ const Sidebar: React.FC<MenuSideProps> = ({ onOpen, username }) => {
           {...logoutButton}
           leftIcon={<BiLogOut />}
           onClick={() => {
+            if (setTransactions) {
+              setTransactions([]);
+            }
             logoutContext();
             navigate("/");
           }}

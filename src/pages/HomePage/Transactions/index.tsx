@@ -56,7 +56,7 @@ const Transactions: React.FC<TransactionsProps> = ({
           textAlign={"center"}
           m={"30px 0"}
         >
-          Last Transactions
+          Últimas Transações
         </Text>
         {transactions &&
           transactions.map((transaction) => (

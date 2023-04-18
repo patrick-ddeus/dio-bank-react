@@ -21,6 +21,8 @@ import axios from "axios";
 interface BalanceProps {
   accountNumber: string;
   setTransactions: React.Dispatch<React.SetStateAction<TransactionRequest[]>>;
+  setBalance: React.Dispatch<React.SetStateAction<number>>;
+  balance: number;
 }
 
 export enum ModalTypes {
@@ -28,9 +30,14 @@ export enum ModalTypes {
   Withdraw,
 }
 
-const Balance: React.FC<BalanceProps> = ({ accountNumber, setTransactions }) => {
+const Balance: React.FC<BalanceProps> = ({
+  accountNumber,
+  setTransactions,
+  balance,
+  setBalance,
+}) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [balance, setBalance] = React.useState<number>(0);
+
   const [typeModal, setTypeModal] = React.useState<ModalTypes>(
     ModalTypes.Deposit
   );
@@ -76,7 +83,7 @@ const Balance: React.FC<BalanceProps> = ({ accountNumber, setTransactions }) => 
         <Box p={"40px"} display={"flex"} gap={"60px"} w={"90%"} m={"0 auto"}>
           <Stat>
             <StatLabel mb={"10px"} fontWeight={"600"}>
-              My Balance
+              Meu Saldo
             </StatLabel>
             <StatNumber mb={"5px"} fontSize={"4rem"}>
               {balance.toLocaleString("pt-BR", {

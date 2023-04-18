@@ -2,7 +2,12 @@ import React, { createContext } from "react";
 
 interface AuthContextProps {
   isAuthenticated: boolean;
-  loginContext: (token: string) => void;
+  loginContext: (
+    token: string,
+    fullname: string,
+    accountNumber: string,
+    balance: number
+  ) => void;
   logoutContext: () => void;
 }
 
@@ -23,9 +28,17 @@ const AuthProvider: React.FC<AuthProvideProps> = ({ children }) => {
     initValue ? true : false
   );
 
-  const loginContext = (token: string) => {
+  const loginContext = (
+    token: string,
+    fullname: string,
+    accountNumber: string,
+    balance: number
+  ) => {
     setIsAuthenticated(true);
-    localStorage.setItem("userInfo", JSON.stringify({ token }));
+    localStorage.setItem(
+      "userInfo",
+      JSON.stringify({ token, fullname, accountNumber, balance })
+    );
   };
 
   const logoutContext = () => {

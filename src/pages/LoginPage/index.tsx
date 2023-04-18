@@ -12,7 +12,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { ILogin } from "../../api/Protocols/AuthProtocols";
 import { AuthContext } from "../../contexts/Auth/AuthProvider";
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 
 interface ErroInterface {
   status: boolean;
@@ -38,15 +38,15 @@ const LoginPage: React.FC = () => {
       );
 
       const { fullname, accountNumber, balance, token } = response.data;
-      
-      loginContext(token);
+
+      loginContext(token, fullname, accountNumber, balance);
 
       navigate("/home", {
         state: {
           fullname,
           accountNumber,
           balance,
-          token
+          token,
         },
       });
     } catch (err: any) {
@@ -56,6 +56,23 @@ const LoginPage: React.FC = () => {
       setLoading(false);
     }
   }
+
+  React.useEffect(() => {
+    const userInfo = localStorage.getItem("userInfo");
+    if (userInfo) {
+      const { fullname, accountNumber, balance, token } = JSON.parse(
+        userInfo || ""
+      );
+      navigate("/home", {
+        state: {
+          fullname,
+          accountNumber,
+          balance,
+          token,
+        },
+      });
+    }
+  }, []);
 
   return (
     <Box minH={"100vh"} bg={"#4F2958"}>

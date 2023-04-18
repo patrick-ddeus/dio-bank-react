@@ -53,9 +53,11 @@ const RegisterPage: React.FC = () => {
         "http://localhost:5000/auth/register",
         form
       );
-      loginContext(response.data.token);
 
-      const { fullname, accountNumber, balance } = response.data;
+      const { token, fullname, accountNumber, balance } = response.data;
+
+      loginContext(token, fullname, accountNumber, balance);
+
       navigate("/welcome", {
         state: {
           fullname,
