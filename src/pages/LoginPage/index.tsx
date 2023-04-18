@@ -33,7 +33,7 @@ const LoginPage: React.FC = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/auth/login",
+        "https://fortcamp-api.onrender.com/auth/login",
         form
       );
 

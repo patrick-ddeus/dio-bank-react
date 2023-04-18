@@ -50,7 +50,7 @@ const RegisterPage: React.FC = () => {
     setLoading(true);
     try {
       const response = await axios.post(
-        "http://localhost:5000/auth/register",
+        "https://fortcamp-api.onrender.com/auth/register",
         form
       );
 

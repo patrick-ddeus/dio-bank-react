@@ -19,7 +19,7 @@ const Transactions: React.FC<TransactionsProps> = ({
     async function fetchTransactions() {
       try {
         const response = await axios.get(
-          "http://localhost:5000/accounts/transactions",
+          "https://fortcamp-api.onrender.com/accounts/transactions",
           { headers: { Authorization: `Bearer ${userinfo.token}` } }
         );
 

@@ -47,7 +47,7 @@ const Balance: React.FC<BalanceProps> = ({
     async function getBalance() {
       try {
         const response = await axios.get(
-          "http://localhost:5000/accounts/balance",
+          "https://fortcamp-api.onrender.com/accounts/balance",
           { headers: { Authorization: `Bearer ${userinfo.token}` } }
         );
         const { balance } = response.data;

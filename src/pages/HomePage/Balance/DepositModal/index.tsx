@@ -47,7 +47,7 @@ const DepositModal: React.FC<modalProps> = ({
 
     try {
       await axios.post(
-        `http://localhost:5000/accounts/${depositOrWithdraw}`,
+        `https://fortcamp-api.onrender.com/accounts/${depositOrWithdraw}`,
         { balance: Number(value) },
         { headers: { Authorization: `Bearer ${parsedUserInfo.token}` } }
       );
@@ -57,12 +57,11 @@ const DepositModal: React.FC<modalProps> = ({
       } else {
         setCurrentBalance((previousState) => previousState - Number(value));
       }
-      
+
       setTransactions((previousState) => [
         ...previousState,
         { type: depositOrWithdraw, amount: Number(value), date: new Date() },
       ]);
-     
 
       onClose();
     } catch (err: any) {
